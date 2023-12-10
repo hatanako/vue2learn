@@ -31,10 +31,10 @@ const routes=[
           title: '首页'
         },
         children:[
-          {
-            path:'',
-            redirect:'news',
-          },
+          // {
+          //   path:'',
+          //   redirect:'news',
+          // },
           {
             path:'news',
             component: HomeNews
@@ -52,7 +52,7 @@ const routes=[
           title: '关于'
         },
         beforeEnter: (to, from, next) =>{
-          console.log('about beforeEnter');
+          // console.log('about beforeEnter');
           next()
         }
     },
@@ -83,13 +83,13 @@ router.beforeEach((to, from ,next) =>{
   // 从from跳转到to
   document.title = to.matched[0].meta.title
   // console.log(to);
-  console.log('++++')
+  // console.log('++++')
   next()
 })
 
 // 后置钩子(hook)
 router.afterEach((to , from)=>{
-  console.log('----')
+  // console.log('----' )
 })
 
 // 3.将router对象传入到vue实例

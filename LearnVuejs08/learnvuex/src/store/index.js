@@ -6,6 +6,36 @@ import { INCREMENT } from './mutations-types'
 Vue.use(Vuex)
 
 // 2.创建对象
+const moduleA = {
+    state: {
+        name : 'zhangsan'
+    },
+    mutations: {
+        updateName(state, payload){
+            state.name = payload
+        }
+    },
+    getters: {
+        fullname(state) {
+            return state.name + '11111'
+        },
+        fullname2(state,getters){
+            return getters.fullname + '2222'
+        },
+        fullname3(state,getters,rootState) {
+            return getters.fullname2 + rootState.counter
+        }
+    },
+    actions: {
+        aUpdateName(context) {
+            setTimeout(() => {
+                context.commit('updateName', 'wangwu')
+            })
+        }
+    },
+    
+}
+
 const store = new Vuex.Store({
     state: {
         counter: 1000,
@@ -38,15 +68,38 @@ const store = new Vuex.Store({
         },
         updateInfo(state){
             // state.info.name = 'coderwhy'
+
+            // 错误的代码: 不能再这里进行异步操作
+            // setTimeout(() => {
+            //     state.info.name = 'coderwhy'
+            // },1000)
             // state.info['address'] = '洛杉矶'
+
             // Vue.set(state.info, 'address','洛杉矶')
             // 该方法做不到响应式
+
             // delete state.info.age
-            Vue.delete(state.info, 'age')
+            // Vue.delete(state.info, 'age')
         }
     },
     actions: {
-
+        // context: 上下文
+        // aUpdateInfo(context,payload) {
+        //     setTimeout(() => {
+        //         context.commit('updateInfo')
+        //         console.log(payload.message)
+        //         payload.success()
+        //     },1000)
+        // }
+        aUpdateInfo(context,payload) {
+            return new Promise((resolve,reject) => {
+                setTimeout(() => {
+                    context.commit('updateInfo')
+                    console.log(payload)
+                    resolve('1111111')
+                })
+            })
+        }
     },
     getters: {
         powerCounter(state){
@@ -68,9 +121,19 @@ const store = new Vuex.Store({
         }
     },
     modules: {
-
+        a: moduleA
     }
 })
 
 // 3.导出store对象
 export default store
+
+// 对象的解构
+const obj = { 
+    name: 'why',
+    age: 18,
+    height: 1.88
+}
+
+const {name, age, height} = obj;
+console.log(name)

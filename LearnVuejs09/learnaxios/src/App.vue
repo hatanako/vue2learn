@@ -1,28 +1,34 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <HelloWorld/>
+    <div>{{ result }}</div>
+    <h2>---------------------------</h2>
+    <hello-world></hello-world>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld'
+import HelloWorld from './components/HelloWorld';
+import axios from 'axios';
 
 export default {
   name: 'App',
   components: {
     HelloWorld
+  },
+  data(){
+    return {
+      result: ''
+    }
+  },
+  created() {
+    axios({
+      url: 'http://123.207.32.32:8000/home/multidata'
+    }).then(res => {
+      console.log(res);
+    })
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 </style>

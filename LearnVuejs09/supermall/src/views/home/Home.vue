@@ -32,6 +32,7 @@
   import BackTop from 'components/content/backTop/BackTop'
 
   import { getHomeMultidata, getHomeGoods } from "network/home"
+  import { debounce } from 'common/utils'
 
   export default {
     name: "Home",
@@ -72,6 +73,15 @@
       this.getHomeGoods('new')
       this.getHomeGoods('sell')
     },
+    mounted() {
+      const refresh = debounce(this.$refs.scroll.refresh,50)
+
+      this.$bus.$on('itemImageLoad', ()=> {
+        refresh()
+      })
+    },
+
+    
     methods: {
       /**
        * 事件监听相关的方法
@@ -103,7 +113,6 @@
        */
       getHomeMultidata() {
         getHomeMultidata().then(res => {
-          // this.result = res;
           this.banners = res.data.banner.list;
           this.recommends = res.data.recommend.list;
         })
@@ -114,6 +123,7 @@
           this.goods[type].list.push(...res.data.list)
           this.goods[type].page += 1
 
+          // 完成上拉加载更多
           this.$refs.scroll.finishPullUp()
         })
       }

@@ -3,20 +3,19 @@
     <nav-bar class="home-nav">
       <div slot="center">购物街</div>
     </nav-bar>
-    <tab-control :titles="['流行', '新款', '精选']" 
-      @tabClick="tabClick" 
+    <tab-control :titles="['流行', '新款', '精选']"
+      @tabClick="tabClick"
       ref="tabControl1" class="tab-control" v-show="isTabFixed"/>
     <scroll class="content" ref="scroll" :probe-type="3" @scroll="contentScroll" :pull-up-load="true"
       @pullingUp="loadMore">
       <home-swiper :banners="banners" @swiperImageLoad="swiperImageLoad" />
       <recommend-view :recommends="recommends" />
       <feature-view />
-      <tab-control :titles="['流行', '新款', '精选']" 
-      @tabClick="tabClick" 
+      <tab-control :titles="['流行', '新款', '精选']"
+      @tabClick="tabClick"
       ref="tabControl2" />
       <good-list :goods="showGoods" />
     </scroll>
-    <div>呵呵呵呵</div>
     <back-top @click.native="backClick" v-show="isShowBackTop" />
   </div>
 </template>
@@ -171,7 +170,7 @@ export default {
   color: #fff;
 
   /* 在使用浏览器原生滚动时，为了让导航不跟随一起滚动 */
-/* 
+/*
   position: fixed;
   left: 0;
   right: 0;

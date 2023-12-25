@@ -76,6 +76,7 @@ export default {
   },
   deactivated() {
     this.saveY = this.$refs.scroll.getScrollY()
+    // this.$bus.$off('itemImgLoad',this.itemImgListener)
   },
   created() {
     // 1.请求多个数据
@@ -92,11 +93,10 @@ export default {
     const refresh = debounce(this.$refs.scroll.refresh, 50)
     this.$bus.$on('itemImageLoad', () => {
       refresh()
-    }),
-
+    })
       // 2.获取tabControl的offsetTop
       // 所有的组件都有一个$el: 用于获取组件中的元素
-      this.tabOffsetTop = this.$refs.tabControl.$el.offsetTop
+      this.tabOffsetTop = this.$refs.tabControl1.$el.offsetTop
   },
 
 

@@ -6,10 +6,10 @@
         <div class="end"></div>
       </div>
   
-      <div class="middle">
-          <span class="key">{{detailInfo.detailImage[0].key}}</span>
+      <div class="middle" v-for="item in detailInfo.detailImage">
+          <span class="key">{{item.key}}</span>
           <div class="imgList">
-              <img v-for="(item,index) in detailInfo.detailImage[0].list" :key="index" :src="item" alt="" @load="itemImgLoad">
+              <img v-for="(item,index) in item.list" :key="index" :src="item" alt="" @load="imageLoad">
           </div>
       </div>
     </div>
@@ -32,9 +32,9 @@
         }
     },
     methods:{
-        itemImgLoad(){
+        imageLoad(){
             if(++this.counter==this.imgLength){
-                this.$emit("imgLoad");
+                this.$emit("detailImageLoad");
             }
         }
     },

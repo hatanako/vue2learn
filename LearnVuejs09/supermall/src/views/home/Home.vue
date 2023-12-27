@@ -16,7 +16,7 @@
       ref="tabControl2" />
       <good-list :goods="showGoods" />
     </scroll>
-    <back-top @click.native="backClick" v-show="isShowBackTop" />
+    <back-top @click.native="backTopClick" v-show="isShowBackTop" />
   </div>
 </template>
 
@@ -32,7 +32,7 @@ import Scroll from 'components/common/scroll/Scroll'
 import BackTop from 'components/content/backTop/BackTop'
 
 import { getHomeMultidata, getHomeGoods } from "network/home"
-import { debounce } from 'common/utils'
+import { itemListenerMixin } from 'common/mixin'
 
 export default {
   name: "Home",
@@ -46,6 +46,7 @@ export default {
     Scroll,
     BackTop
   },
+  mixins: [itemListenerMixin],
   data() {
     return {
       banners: [],
@@ -75,7 +76,11 @@ export default {
     this.$refs.scroll.refresh()
   },
   deactivated() {
+    // 1.保存Y值
     this.saveY = this.$refs.scroll.getScrollY()
+
+    // 2.取消全局事件的监听
+    this.$bus.$off('itemImgLoad',this.itemImgListener)
     // this.$bus.$off('itemImgLoad',this.itemImgListener)
   },
   created() {
@@ -89,14 +94,6 @@ export default {
 
   },
   mounted() {
-    // 1.图片加载完成的事件监听
-    const refresh = debounce(this.$refs.scroll.refresh, 50)
-    this.$bus.$on('itemImageLoad', () => {
-      refresh()
-    })
-      // 2.获取tabControl的offsetTop
-      // 所有的组件都有一个$el: 用于获取组件中的元素
-      this.tabOffsetTop = this.$refs.tabControl1.$el.offsetTop
   },
 
 

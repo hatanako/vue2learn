@@ -1,97 +1,101 @@
 <template>
-    <div class="goods" v-if="Object.keys(detailInfo).length!==0">
-      <div class="info-desc clear-fix">
-        <div class="start"></div>
-        <div class="desc">{{detailInfo.desc}}</div>
-        <div class="end"></div>
+  <div v-if="Object.keys(detailInfo).length !== 0" class="goods-info">
+    <div class="info-desc clear-fix">
+      <div class="start">
       </div>
-  
-      <div class="middle" v-for="item in detailInfo.detailImage">
-          <span class="key">{{item.key}}</span>
-          <div class="imgList">
-              <img v-for="(item,index) in item.list" :key="index" :src="item" alt="" @load="imageLoad">
-          </div>
-      </div>
+      <div class="desc">{{ detailInfo.desc }}</div>
+      <div class="end"></div>
     </div>
-  </template>
-  <script>
-  export default {
-    name: "DetailGoodsInfo",
-    props: {
-      detailInfo: {
-        type: Object,
-        default() {
-          return {};
-        }
-      }
-    },
-    data(){
-        return {
-            imgLength:0,
-            counter:0 
-        }
-    },
-    methods:{
-        imageLoad(){
-            if(++this.counter==this.imgLength){
-                this.$emit("detailImageLoad");
-            }
-        }
-    },
-    watch:{
-      detailInfo(){
-          this.imgLength=this.detailInfo&&this.detailInfo.detailImage[0].list.length;
+    <div class="info-key">{{ detailInfo.detailImage[0].key }}</div>
+    <div class="info-list">
+      <img v-for="(item, index) in detailInfo.detailImage[0].list" :src="item" @load="imgLoad" alt="" :key="index">
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "DetailGoodsInfo",
+  props: {
+    detailInfo: {
+      type:Object
+    }
+  },
+  data() {
+    return {
+      counter: 0, // 用于累计图片实时加载数量
+      imagesLength: 0
+    }
+  },
+  methods: {
+    imgLoad() {
+      // 判断，所有的图片都加载完了，那么进行一次回调就可以了 
+      if (++this.counter === this.imagesLength) {
+        this.$emit('imageLoad')
       }
     }
-  };
-  </script>
-  <style scoped>
-  .goods {
-    padding: 15px 0 0 0;
-    margin-top: 10px;
-    border-top: 4px solid #f6f6f6;
+  },
+  watch: {
+    // 获取图片的个数
+    detailInfo() {
+      this.imagesLength = this.detailInfo.detailImage[0].list.length
+    }
   }
-  .info-desc {
-    padding: 0 15px;
-  }
-  .info-desc .start,
-  .info-desc .end {
-    width: 90px;
-    height: 1px;
-    background-color: #a3a3a5;
-    position: relative;
-  }
-   .info-desc .start {
-      float: left;
-    }
-  
-    .info-desc .end {
-      float: right;
-    }
-    
-    .info-desc .start::before, .info-desc .end::after {
-      content: '';
-      position: absolute;
-      width: 8px;
-      height: 8px;
-      background-color: #333;
-      bottom: 0;
-      border-radius: 50%;
-      top: -3px;
-    }
-    .info-desc .end::after {
-      right: 0;
-    }
-    .desc{
-        font-size: 14px;
-        padding: 10px 0;
-    }
-  
-    .key{
-       font-weight: 600;
-       padding-left: 14px;
-    }
-    .imgList img{
-        width: 100%;
-    }
-  </style>
+}
+</script>
+
+<style scoped>
+.goods-info {
+  padding: 20px 0;
+  border-bottom: 5px solid #f2f5f8;
+}
+
+.info-desc {
+  padding: 0 15px;
+}
+
+.info-desc .start,
+.info-desc .end {
+  width: 90px;
+  height: 1px;
+  background-color: #a3a3a5;
+  position: relative;
+}
+
+.info-desc .start {
+  float: left;
+}
+
+.info-desc .end {
+  float: right;
+}
+
+.info-desc .start::before,
+.info-desc .end::after {
+  content: '';
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  background-color: #333;
+  bottom: 0;
+}
+
+.info-desc .end::after {
+  right: 0;
+}
+
+.info-desc .desc {
+  padding: 15px 0;
+  font-size: 14px;
+}
+
+.info-key {
+  margin: 10px 0 10px 15px;
+  color: #333;
+  font-size: 15px;
+}
+
+.info-list img {
+  width: 100%;
+}
+</style>

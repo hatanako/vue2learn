@@ -1,17 +1,16 @@
 export function debounce(func, delay) {
-    let timer = null
-    
-    return function (...args) {
-      if (timer) clearTimeout(timer)
-
-      timer = setTimeout(() => {
-        func.apply(this,args)
-      },delay)
-    }
+  let timer = null
+  return function (...args) {
+    if (timer) clearTimeout(timer)
+    timer = setTimeout(() => {
+      func.apply(this, args)
+    }, delay)
+  }
 }
+
 // 正则表达式是干什么的？字符串匹配 利器(难，规则太多)
 export function formatDate(date, fmt) {
-    // 1.获取年份
+  // 1.获取年份
   // y
   // y+ -> 1个或者多个y
   // y* -> 0个或者多个y
@@ -42,7 +41,7 @@ export function formatDate(date, fmt) {
     }
   }
   return fmt;
-}
+};
 // 04:04:04
 
 function padLeftZero(str) {

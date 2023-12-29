@@ -149,7 +149,7 @@ export default {
 
             for (let i = 0; i < length - 1; i++) {
                 // if (this.currentIndex !== i && ((i < length - 1 && positionY >= this.themeTopYs[i] && positionY <
-                // this.themeTopYs[i + 1] || (i === length - 1 && positionY >= this.themeTopYs[i])))) 
+                // this.themeTopYs[i + 1] || (i === length - 1 && positionY >= this.themeTopYs[i]))))
                 if (this.currentIndex !== i && (positionY >= this.themeTopYs[i] && positionY < this.themeTopYs[i + 1])) {
                     this.currentIndex = i
                     // console.log(this.currentIndex)

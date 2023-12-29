@@ -78,6 +78,7 @@ export default {
     line-height: 40px;
     height: 40px;
     background-color: #eee;
+    font-size: 14px;
 }
 
 .check-content {
